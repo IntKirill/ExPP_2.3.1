@@ -38,10 +38,10 @@ public String getAllUsers(Model model) {
     }
 
     @PostMapping("/new")
-    public String addUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+    public String addUser(@ModelAttribute("user") @Valid User user,
+                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "new";
-            //отправка данных нового пользователя
         }
         userService.save(user);
         return "redirect:/";
@@ -62,7 +62,11 @@ public String getAllUsers(Model model) {
     }
 
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+    public String updateUser(@ModelAttribute("user") @Valid User user,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "update";
+        }
         userService.updateUser(user);
         return "redirect:/";
         //изменяем полученного пользователя

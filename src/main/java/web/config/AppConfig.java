@@ -42,11 +42,11 @@ import java.util.Properties;
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(getDataSource());
-        em.setPackagesToScan(env.getRequiredProperty("db.entity.package"));
+        em.setDataSource(getDataSource());//указываем на настройку с БД
+        em.setPackagesToScan(env.getRequiredProperty("db.entity.package"));//указываем какие папки  сканировать на наличие бинов
 
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        em.setJpaProperties(getHibernateProperties());
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());//указываем кто будет в качестве провайдера ДЖПА
+        em.setJpaProperties(getHibernateProperties());//Указываем настройку хибернайте
         return em;
     }
 
