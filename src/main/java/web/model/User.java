@@ -2,6 +2,7 @@ package web.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 
 @Entity
@@ -13,11 +14,15 @@ public class User {
     @Column(name = "id")
     private long  id;
 
+    @NotBlank(message = "Null!")
     @Column(name = "name")
     private String name;
 
+    @NotBlank(message = "Null!")
     @Column(name = "country")
     private String country;
+
+    @NotBlank(message = "Null!")
     @Column(name = "car")
     private String car;
 
