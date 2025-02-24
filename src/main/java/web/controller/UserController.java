@@ -28,14 +28,13 @@ public class UserController {
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         return "users";
-        //главная странница
     }
 
 
     @GetMapping("/new")
     public String CreateUserForm(@ModelAttribute("user") User user) {
         return "new";
-        //создание пользователя
+
     }
 
     @PostMapping("/new")
@@ -52,14 +51,14 @@ public class UserController {
     public String deleteUser(@RequestParam("id") long id) {
         userService.removeUserById(id);
         return "redirect:/";
-        //удаление нового пользователя по ид
+
     }
 
     @GetMapping("/update")
     public String getEditUserForm(Model model, @RequestParam("id") long id) {
         model.addAttribute("user", userService.findById(id));
         return "update";
-        //Получение пользователя которого хотим изменить
+
     }
 
     @PostMapping("/update")
@@ -70,7 +69,7 @@ public class UserController {
         }
         userService.updateUser(user);
         return "redirect:/";
-        //изменяем полученного пользователя
+
 
     }
 }

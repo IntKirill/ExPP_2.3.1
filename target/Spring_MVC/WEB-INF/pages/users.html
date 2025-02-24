@@ -13,6 +13,7 @@
         <th>Name</th>
         <th>Country</th>
         <th>Car</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -21,6 +22,10 @@
         <td th:text="${user.name}"></td>
         <td th:text="${user.country}"></td>
         <td th:text="${user.Car}"></td>
+        <td>
+            <a th:href="@{update(id=${user.id})}">Update</a>
+            <a th:href="@{delete(id=${user.id})}">Delete</a>
+        </td>
     </tr>
     </tbody>
 </table>
