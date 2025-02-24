@@ -23,15 +23,16 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-@GetMapping("/")
-public String getAllUsers(Model model) {
+
+    @GetMapping("/")
+    public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         return "users";
         //главная странница
-}
+    }
 
 
-@GetMapping("/new")
+    @GetMapping("/new")
     public String CreateUserForm(@ModelAttribute("user") User user) {
         return "new";
         //создание пользователя
@@ -54,11 +55,11 @@ public String getAllUsers(Model model) {
         //удаление нового пользователя по ид
     }
 
-   @GetMapping("/update")
+    @GetMapping("/update")
     public String getEditUserForm(Model model, @RequestParam("id") long id) {
         model.addAttribute("user", userService.findById(id));
         return "update";
-       //Получение пользователя которого хотим изменить
+        //Получение пользователя которого хотим изменить
     }
 
     @PostMapping("/update")

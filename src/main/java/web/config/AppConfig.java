@@ -26,8 +26,14 @@ import java.util.Properties;
     @ComponentScan(value = "web")
     public class AppConfig {
 
-    @Autowired
+
+
     private Environment env;
+
+    @Autowired
+    public AppConfig(Environment env) {
+        this.env = env;
+    }
 
     @Bean
     public DataSource getDataSource() {
@@ -42,53 +48,25 @@ import java.util.Properties;
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(getDataSource());//указываем на настройку с БД
-        em.setPackagesToScan(env.getRequiredProperty("db.entity.package"));//указываем какие папки  сканировать на наличие бинов
+        em.setDataSource(getDataSource());
+        em.setPackagesToScan(env.getRequiredProperty("db.entity.package"));
 
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());//указываем кто будет в качестве провайдера ДЖПА
-        em.setJpaProperties(getHibernateProperties());//Указываем настройку хибернайте
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+        Properties properties = new Properties();
+        properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+
+        em.setJpaProperties(properties);
         return em;
     }
 
 
-    public Properties getHibernateProperties() {
-        Properties hibernateProperties = new Properties();
-        try {
 
-            InputStream is = this.getClass().getClassLoader()
-                    .getResourceAsStream("hibernate.properties");
-            hibernateProperties.load(is);
-            return hibernateProperties;
-        } catch (IOException e) {
-            throw new IllegalStateException("Unable to load hibernate.properties", e);
-        }
-    }
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
     }
 }
-
-//        @Bean
-//        public LocalSessionFactoryBean getSessionFactory() {
-//            LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-//            factoryBean.setDataSource(getDataSource());
-//
-//            Properties props=new Properties();
-//            props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-//            props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-//
-//            factoryBean.setHibernateProperties(props);
-//
-//            factoryBean.setAnnotatedClasses(User.class);
-//            return factoryBean;
-//        }
-//
-//        @Bean
-//        public HibernateTransactionManager getTransactionManager() {
-//            HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-//            transactionManager.setSessionFactory(getSessionFactory().getObject());
-//            return transactionManager;
-//        }
 
 
